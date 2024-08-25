@@ -27,6 +27,7 @@ const port = 3000
 // 	const category = req.query.category
 // 	res.send("No items" + " " + id + "<br> and Category " + category)
 // })
+
 // app.get("/", (req, res) => {
 // 	res.send("Page Main")
 // })
@@ -39,8 +40,6 @@ const port = 3000
 // 	res.send("ini metode post barang")
 // })
 
-// app.get()
-
 // app.put("/barangs", (req, res) => {
 // 	res.send("ini metode put barangs")
 // })
@@ -52,28 +51,9 @@ const port = 3000
 // 	res.send("ini metode all items")
 // })
 
-// app.use("*", (req, res) => {
-// 	res.status(404).send("Page Not Found")
-// })
-// app.get("/random.text", (req, res) => {
-// 	res.send("random text")
-// })
-
-// app.get("/ab?cd", (req, res) => {
-// 	res.send("Ini metode ab?cd")
-// })
-
-// app.get("/ab+cd", (req, res) => {
-// 	res.send("ini metode ab+cd")
-// })
-
-// app.get("/ab*cd", (req, res) => {
-// 	res.send("ini metode ab*cd")
-// })
-
-app.get("/abcd?(e)", (req, res) => {
-	res.send("ini metode get untuk ab(cd)?e")
-}) 
+app.use("*", (req, res) => {
+	res.status(404).send("Page Not Found")
+})
 
 app.listen(port, () => {
 	console.log(`Server running to http://localhost:${port}`)
