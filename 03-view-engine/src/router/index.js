@@ -3,7 +3,10 @@ import itemsRouter from "./items.js"
 const router = express.Router()
 
 router.use("/", (req, res) => {
-	res.render("index")
+	const title = {
+		title: "NEW TITLE",
+	}
+	res.render("index", title)
 })
 
 router.use("/items", itemsRouter)
