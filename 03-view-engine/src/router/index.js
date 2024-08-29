@@ -3,6 +3,7 @@ import itemsRouter from "./items.js"
 const router = express.Router()
 
 router.use("/", (req, res) => {
+	const layout = "layout/main-layout.ejs"
 	const title = "EJS"
 	const table = "Items"
 	const data = {
@@ -18,6 +19,7 @@ router.use("/", (req, res) => {
 		],
 	}
 	res.render("index", {
+		layout: layout,
 		title: title,
 		table: table,
 		data: data,

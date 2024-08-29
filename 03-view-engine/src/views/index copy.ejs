@@ -1,4 +1,5 @@
-<h3>Tabel <%= table %></h3>
+<%- include("header.ejs")%>
+    <h3>Tabel <%= table %></h3>
     <table border="1" cellpadding ="3" cellspacing=""1 >
         <tr>
             <th>No</th>
@@ -13,3 +14,4 @@
             </tr>
         <% }) %>
     </table>
+<%- include("footer.ejs") %>
