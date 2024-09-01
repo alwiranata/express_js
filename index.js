@@ -1,16 +1,23 @@
 const express = require("express")
 const app = express()
 const port = 3000
+const db = require("./Connection.js")
+const response = require("./Response.js")
 
 app.use(express.json()) // Mem-parsing data dalam format JSON
 
 app.get("/", (req, res) => {
-	res.send("Main Page")
+	const sql = "SELECT * FROM mahasiswa"
+	db.query(sql, (error, result) => {
+		response(200, result, "get all data from mahasiswa", res)
+	})
 })
 
-app.get("/hello", (req, res) => {
-	console.log({getParams: req.query})
-	res.send("Hello World")
+app.get("/find", (req, res) => {
+	const sql = `SELECT nama_lengkap FROM mahasiswa WHERE nim =${req.query.nim}`
+	db.query(sql, (error, result) => {
+		response(200, result, "find mahasiswa name", res)
+	})
 })
 
 app.post("/login", (req, res) => {
