@@ -1,38 +1,26 @@
 const express = require("express")
 const app = express()
 const port = 3000
-const db = require("./Connection.js")
-const response = require("./Response.js")
+const bodyParser = require("body-parser")
+const db = require("./Connection")
 
-app.use(express.json()) // Mem-parsing data dalam format JSON
+app.use(bodyParser.json())
 
 app.get("/", (req, res) => {
-	const sql = "SELECT * FROM mahasiswa"
-	db.query(sql, (error, result) => {
-		response(200, result, "get all data from mahasiswa", res)
-	})
+	res.send("Main")
 })
 
-app.get("/find", (req, res) => {
-	const sql = `SELECT nama_lengkap FROM mahasiswa WHERE nim =${req.query.nim}`
-	db.query(sql, (error, result) => {
-		response(200, result, "find mahasiswa name", res)
-	})
+app.get("/mahasiswa", (req, res) => {
+	res.send("halaman mahasiswa")
 })
+app.get("/mahasiswa/:id", (req, res) => {
+	const id = req.params.id
+	res.send(`spesifik mahasiswa by id ${id}`)
+})
+app.post("/mahasiswa/:id", (req, res) => {})
 
-app.post("/login", (req, res) => {
-	console.log({reqFromOutside: req.body})
-	if (req.body.name === "aldo" && req.body.password === "123") {
-		res.send("login suceess")
-	} else {
-		res.send("Name Failed")
-	}
-})
-
-app.put("/username", (req, res) => {
-	console.log({updateData: req.body})
-	res.send("Update Success")
-})
+app.put("/", (req, res) => {})
+app.delete("/", (req, res) => {})
 
 app.get("*", (req, res) => {
 	res.status(404)
