@@ -42,11 +42,39 @@ app.post("/mahasiswa", (req, res) => {
 	})
 })
 
-app.put("/", (req, res) => {
-	response(200, "put mahasiswa", "mahasiswa", res)
+app.put("/mahasiswa", (req, res) => {
+	const {nim, namaLengkap, kelas, alamat} = req.body
+	const sql = `UPDATE mahasiswa SET nama_lengkap='${namaLengkap}', kelas = '${kelas}', alamat = '${alamat}' WHERE nim = ${nim}`
+	db.query(sql, (err, fields) => {
+		if (err) response(500, "Update Invalid", "invalid", res)
+		if (fields?.affectedRows) {
+			const data = {
+				isSuccess: fields.affectedRows,
+				message: fields.message,
+			}
+			response(200, data, "SUCCESS", res)
+		} else {
+			response(404, "User not found", "error", res)
+		}
+	})
 })
-app.delete("/", (req, res) => {
-	response(200, "delete mahasiswa", "mahasiswa", res)
+app.delete("/mahasiswa", (req, res) => {
+	const {nim} = req.body
+	const sql = `DELETE FROM mahasiswa WHERE nim = ${nim}`
+	db.query(sql, (err, fields) => {
+		if (err) response(500, "Delete Invalid", "error", res)
+		if (fields?.affectedRows) {
+			const statusMessage =
+				fields.serverStatus === 2 ? "Delete Success" : "User not found"
+			const data = {
+				isSuccess: fields.affectedRows,
+				Status: statusMessage,
+			}
+			response(200, data, "SUCESS", res)
+		} else {
+			response(404, "User not found", "error", res)
+		}
+	})
 })
 
 app.get("*", (req, res) => {
