@@ -7,18 +7,39 @@ const response = require("./response")
 app.use(bodyParser.json())
 
 app.get("/", (req, res) => {
-	response(200, "getData", "Hello World", res)
+	response(200, "API v1 ready to go", "SUCCESS", res)
 })
 
 app.get("/mahasiswa", (req, res) => {
-	response(200, "mahasiswa", "mahasiswa", res)
+	const sql = `SELECT * FROM mahasisw`
+	db.query(sql, (err, fields) => {
+		if (err) throw err
+		response(200, fields, "mahasiswa", res)
+	})
 })
+
 app.get("/mahasiswa/:nim", (req, res) => {
 	const nim = req.params.nim
-	response(200, "spesifix", `spesifik mahasiswa by nim ${nim}`, res)
+	const sql = `SELECT * FROM mahasiswa WHERE nim = ${nim}`
+	db.query(sql, (err, fields) => {
+		response(200, fields, `spesifik mahasiswa by nim ${nim}`, res)
+	})
 })
-app.post("/mahasiswa/:id", (req, res) => {
-	response(200, "post mahasiswa", "mahasiswa", res)
+app.post("/mahasiswa", (req, res) => {
+	const {nim, namaLengkap, kelas, alamat} = req.body
+
+	const sql = `INSERT INTO mahasiswa (nim,nama_lengkap,kelas,alamat) VALUES (${nim} ,'${namaLengkap}' ,'${kelas}' ,'${alamat}' )`
+
+	db.query(sql, (err, fields) => {
+		if (err) response(500, "invalid", "error", res)
+		if (fields?.affectedRows) {
+			const data = {
+				isSuccess: fields.affectedRows,
+				insertId: fields.insertId,
+			}
+			response(200, data, "Data Added Successfuly", res)
+		}
+	})
 })
 
 app.put("/", (req, res) => {
